@@ -1,0 +1,33 @@
+{
+  "name": "reactribute",
+  "version": "1.0.0",
+  "description": " ",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "watch:test": "nodemon -w __tests__ -w ./src -e js,jsx -x npm test"
+  },
+  "author": "Sharon Rolel",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^5.8.29",
+    "babel-jest": "*",
+    "jest-cli": "*",
+    "react": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0",
+    "react-dom": "^0.14.0"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+     "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
+    "testFileExtensions": [
+      "es6",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
+  }
+}
