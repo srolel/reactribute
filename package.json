@@ -4,30 +4,30 @@
   "description": " ",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "watch:test": "nodemon -w __tests__ -w ./src -e js,jsx -x npm test"
+    "test": "cd build && mocha",
+    "watch:test": "cd build && mocha -w",
+    "watch:test:notify": "(cd build && mocha -w) | node notify",
+    "dev": "concurrent \"babel src -w --out-dir build\" \"iron-node dev\"",
+    "start": "babel src --out-dir build && webpack"
   },
   "author": "Sharon Rolel",
   "license": "ISC",
   "devDependencies": {
-    "babel": "^5.8.29",
-    "babel-jest": "*",
-    "jest-cli": "*",
-    "react": "^0.14.0",
+    "babel-cli": "^6.0.12",
+    "babel-plugin-transform-runtime": "^6.0.2",
+    "babel-preset-es2015": "^6.0.12",
+    "babel-preset-react": "^6.0.14",
+    "babel-runtime": "^6.0.12",
+    "chai": "^3.4.0",
+    "chokidar": "^1.2.0",
+    "jsdom": "^7.0.2",
+    "mocha": "^2.3.3",
+    "node-notifier": "^4.3.1",
     "react-addons-test-utils": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.0",
+    "webpack": "^1.12.2"
   },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-     "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
-    "testFileExtensions": [
-      "es6",
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "es6"
-    ]
+  "dependencies": {
+    "react": "^0.14.0"
   }
 }

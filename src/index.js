@@ -1,42 +1,33 @@
-import React from 'react';
+import enhanceInstances from './enhance-instance.js';
+import {cond} from './utils.js';
 
-const applyFnToAllElements = (inst, fn) => {
+const getTransformMatcher = cond(
+  [x => typeof x === 'function', x => x],
+  [x => x instanceof RegExp, x => ({type, props}) =>
+      x.test(type) || Object.keys(props).some(k => x.test(k))],
+  x => ({type, props}) =>
+    type === x || x in props
+);
 
-  if (!inst) {
-    return;
-  }
+const reactribute = transforms => {
 
-  inst = fn(inst);
+  transforms = transforms.map(t => {
+    t.matcher = getTransformMatcher(t.matcher);
+    return t;
+  });
 
-  if (inst.props && inst.props.children) {
-     return React.cloneElement(inst, {},
-        React.Children.map(
-          inst.props.children,
-          c => applyFnToAllElements(c, fn)));
-  }
+  return enhanceInstances(element => {
+    for (let i = 0, len = transforms.length; i < len; i++) {
+      const {matcher, fn} = transforms[i];
+    if (matcher(element)) {
+        element = fn(element);
+      }
+    }
 
-return inst;
+    return element;
 
-};
-
-const replaceComponentMethod = (Component, fn) => {
-  const {value: oldRender, ...descriptor} = Object.getOwnPropertyDescriptor(Component.prototype, 'render');
-  Object.defineProperty(Component, 'render', {...descriptor, value: fn(oldRender)});
-  return Component;
-}
-
-const decorateRender = (oldRender) => {
-  const instance = oldRender.call(this);
-  applyFnToAllElements(instance, Component => {
-    console.log(Component);
-    return Component
-  })
-};
-
-const decorator = Component => {
-  replaceComponentMethod(Component, decorateRender);
-  return Component;
+  });
 
 };
 
-export default decorator
+export default reactribute;

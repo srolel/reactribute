@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _enhanceInstance = require('./enhance-instance.js');
 
 var _enhanceInstance2 = _interopRequireDefault(_enhanceInstance);
@@ -24,7 +28,7 @@ var getTransformMatcher = (0, _utils.cond)([function (x) {
   return function (_ref) {
     var type = _ref.type;
     var props = _ref.props;
-    return x.test(type) || Object.keys(props).some(function (k) {
+    return x.test(type) || (0, _keys2.default)(props).some(function (k) {
       return x.test(k);
     });
   };
