@@ -16,12 +16,7 @@ module.exports = {
       amd: 'react'
     }
   }],
-  // module: {
-  //   loaders: [
-  //     { test: /\.js$/, loader: 'babel-core', include: path.join(__dirname, 'src') }
-  //   ]
-  // },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin()
+    new webpack.optimize.OccurenceOrderPlugin(),
   ]
 };
