@@ -59,6 +59,7 @@ const decorateRender = fn => oldRender => function() {
 
 const enhanceInstances = fn => Component => {
   const decoratedRender = decorateRender(fn);
+  
   const enhancer = Component.prototype.hasOwnProperty('render')
     ? enhanceReactClassComponent
     : enhanceReactPureComponent;
