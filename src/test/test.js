@@ -102,12 +102,12 @@ describe('reactribute', () => {
 
 	it('should change the type of the instance', () => {
 
-		const decorator = reactribute([{
-			matcher: 'div',
-			fn({type, props, children}) {
-				return {type: 'span'};
-			}
-		}]);
+const decorator = reactribute([{
+	matcher: 'div',
+	fn({type, props, children}) {
+		return {type: 'span'};
+	}
+}]);
 
 		const TestComponent = decorator(class extends React.Component {
 			render() {

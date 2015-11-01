@@ -6,8 +6,8 @@
   "scripts": {
     "test": "cd build && mocha",
     "watch:test": "cd build && mocha -w",
-    "watch:test:notify": "(cd build && mocha -w) | node bin/notify.js",
-    "dev": "concurrent \"babel src -w --out-dir build\" \"iron-node bin/dev.js\"",
+    "watch:test:notify": "(cd build && mocha -w) | node notify.js",
+    "dev": "concurrent \"babel src -w --out-dir build\" \"iron-node dev.js\"",
     "start": "babel src --out-dir build && webpack --config webpack.config.src.js && webpack --config webpack.config.min.js"
   },
   "author": "Sharon Rolel",
