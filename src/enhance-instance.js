@@ -28,14 +28,14 @@ const applyFnToAllElements = (inst, fn) => {
 
   let {type, props, children} = resolveElementParams(inst, result);
 
-  const resolveChildren = cond([
-      x => Array.isArray(x),
-      x => React.Children.map(x, c => applyFnToAllElements(c, fn))
-    ], [
-      x => x,
-      x => applyFnToAllElements(x, fn)
-    ],
-    x => x);
+const resolveChildren = cond([
+    x => Array.isArray(x),
+    x => React.Children.map(x, c => applyFnToAllElements(c, fn))
+  ], [
+    x => x,
+    x => applyFnToAllElements(x, fn)
+  ],
+  x => x);
 
   children = resolveChildren(children);
   inst = React.createElement(type, props, children);
@@ -45,13 +45,13 @@ const applyFnToAllElements = (inst, fn) => {
 
 const enhanceReactClassComponent = (Component, fn) => {
   const descriptor = Object.getOwnPropertyDescriptor(Component.prototype, 'render');
-  Object.defineProperty(Component.prototype, 'render', extend(descriptor, {value: fn(descriptor.render)}));
+  Object.defineProperty(Component.prototype, 'render', extend(descriptor, {value: fn(descriptor.value)}));
   return Component;
 };
 
 const enhanceReactPureComponent = (Component, fn) => fn(Component);
 
-const decorateRender = fn => oldRender => () => {
+const decorateRender = fn => oldRender => function() {
   const instance = oldRender.call(this);
   const decorated = applyFnToAllElements(instance, fn);
   return decorated;
