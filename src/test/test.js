@@ -1,5 +1,5 @@
 import {should, expect, assert} from 'chai';
-import reactribute from '../reactribute.js';
+import reactribute from '../index.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
