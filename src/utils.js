@@ -12,9 +12,9 @@ export const cond = (...tests) => {
   return arg => {
 
     for (let i = 0, len = tests.length; i < len; i++) {
-      const pred = tests[i];
-      if (pred[0](arg)) {
-        return maybeExecute(pred[1], arg);
+      const test = tests[i];
+      if (test[0](arg)) {
+        return maybeExecute(test[1], arg);
       }
     }
 
