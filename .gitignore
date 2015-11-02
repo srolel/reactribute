@@ -2,6 +2,7 @@ node_modules
 modules
 dist
 build
+test
 .DS_Store
 *.log
 *.sublime-workspace

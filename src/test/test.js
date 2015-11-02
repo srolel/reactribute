@@ -20,7 +20,7 @@ describe('reactribute', () => {
 
 		const TestComponent = decorator(class extends React.Component {
 			render() {
-				return <div testAttribute={true} />
+				return <div testAttribute={true} />;
 			}
 		});
 
