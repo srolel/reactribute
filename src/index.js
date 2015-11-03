@@ -4,7 +4,7 @@ import {cond} from './utils.js';
 const reactribute = transforms => {
 
   const matchers = reactribute.matchers.concat(reactribute.defaultMatcher);
-  const getTransformMatcher = cond(matchers);
+  const getTransformMatcher = cond(...matchers);
 
   transforms = transforms.map(t => {
     t.matcher = getTransformMatcher(t.matcher);
