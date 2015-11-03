@@ -32,7 +32,7 @@ reactribute.matchers = [
 ];
 
 reactribute.defaultMatcher =
-  x => ({type, props}) =>
-    type === x || x in props;
+  x => ({type, key, props}) =>
+    type === x || key === x || x in props;
 
 export default reactribute;
