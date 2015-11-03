@@ -1,15 +1,10 @@
 import enhanceInstances from './enhance-instance.js';
 import {cond} from './utils.js';
 
-const getTransformMatcher = cond(
-  [x => typeof x === 'function', x => x],
-  [x => x instanceof RegExp, x => ({type, props}) =>
-      x.test(type) || Object.keys(props).some(k => x.test(k))],
-  x => ({type, props}) =>
-    type === x || x in props
-);
-
 const reactribute = transforms => {
+
+  const matchers = reactribute.matchers.concat(reactribute.defaultMatcher);
+  const getTransformMatcher = cond(matchers);
 
   transforms = transforms.map(t => {
     t.matcher = getTransformMatcher(t.matcher);
@@ -29,5 +24,15 @@ const reactribute = transforms => {
   });
 
 };
+
+reactribute.matchers = [
+  [x => typeof x === 'function', x => x],
+  [x => x instanceof RegExp, x => ({type, props}) =>
+      x.test(type) || Object.keys(props).some(k => x.test(k))]
+];
+
+reactribute.defaultMatcher =
+  x => ({type, props}) =>
+    type === x || x in props;
 
 export default reactribute;
