@@ -51,8 +51,8 @@ const enhanceReactClassComponent = (Component, fn) => {
 
 const enhanceReactPureComponent = (Component, fn) => fn(Component);
 
-const decorateRender = fn => oldRender => function() {
-  const instance = oldRender.call(this);
+const decorateRender = fn => oldRender => function(...args) {
+  const instance = oldRender.apply(this, args);
   const decorated = applyFnToAllElements(instance, fn);
   return decorated;
 };
