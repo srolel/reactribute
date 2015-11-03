@@ -16,7 +16,7 @@ const applyFnToAllElements = (inst, fn) => {
     return inst;
   }
 
-  const result = fn({type: inst.type, props: inst.props, children: inst.props.children});
+  const result = fn({type: inst.type, key: inst.key, props: inst.props, children: inst.props.children});
 
   if (result === false || typeof result === 'undefined') {
     return inst;
@@ -59,7 +59,7 @@ const decorateRender = fn => oldRender => function(...args) {
 
 const enhanceInstances = fn => Component => {
   const decoratedRender = decorateRender(fn);
-  
+
   const enhancer = Component.prototype.hasOwnProperty('render')
     ? enhanceReactClassComponent
     : enhanceReactPureComponent;

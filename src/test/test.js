@@ -56,6 +56,30 @@ describe('reactribute', () => {
 
 	});
 
+	it('should enhance React.Component class instances with string key matcher', () => {
+
+	const decorator = reactribute([{
+		matcher: 'test',
+		fn({type, props, children}) {
+			return {props: {style: Object.assign({}, ...props.style)}};
+		}
+	}]);
+
+	const TestComponent = decorator(class extends React.Component {
+		render() {
+			return <div key="test" style={[{color: 'red'}, {color: 'blue'}]} />;
+		}
+	});
+
+	const instance = TestUtils.renderIntoDocument(<TestComponent/>);
+
+	const node = ReactDOM.findDOMNode(instance);
+
+	expect(node.style.color).to.equal('blue');
+	expect(node.tagName).to.equal('DIV');
+
+	});
+
 	it('should not change the element if false or undefined is returned', () => {
 
 		const decorator = reactribute([{
