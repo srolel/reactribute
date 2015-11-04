@@ -36,7 +36,7 @@ export const extend = (obj1, obj2) => {
 
   for (let k in obj1) {
     if (!(k in ret) && obj1.hasOwnProperty(k)) {
-      ret[k] = obj2[k];
+      ret[k] = obj1[k];
     }
   }
 

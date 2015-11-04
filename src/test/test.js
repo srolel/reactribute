@@ -188,4 +188,32 @@ const decorator = reactribute([{
 		expect(node.innerHTML).to.equal('wat');
 
 	});
+
+	it('should be composable with itself', () => {
+		const decorator = reactribute([{
+			matcher: 'div',
+			fn({type, props, children}) {
+				return {props: {children: 'wat'}};
+			}
+		}]);
+
+		const anotherDecorator = reactribute([{
+			matcher: 'div',
+			fn({type, props, children}) {
+				return {props: {children: 'lol'}};
+			}
+		}]);
+
+		const TestComponent = anotherDecorator(decorator(class extends React.Component {
+			render() {
+				return <div/>;
+			}
+		}));
+
+		const instance = TestUtils.renderIntoDocument(<TestComponent/>);
+		const node = ReactDOM.findDOMNode(instance);
+		expect(node.tagName).to.equal('DIV');
+		expect(node.innerHTML).to.equal('lol');
+
+	});
 });

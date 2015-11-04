@@ -45,6 +45,7 @@ const resolveChildren = cond([
 
 const enhanceReactClassComponent = (Component, fn) => {
   const descriptor = Object.getOwnPropertyDescriptor(Component.prototype, 'render');
+  // console.log(extend(descriptor, {value: fn(descriptor.value)}))
   Object.defineProperty(Component.prototype, 'render', extend(descriptor, {value: fn(descriptor.value)}));
   return Component;
 };
