@@ -7,6 +7,11 @@ const resolveElementParams = (originalInstance, transformationResult) => {
   children = children || (props && props.children);
   type = type || originalInstance.type;
 
+  const key = props.key || transformationResult.key || originalInstance.key;
+  const ref = props.ref || transformationResult.ref || originalInstance.ref;
+
+  props = extend(props, {key, ref});
+
   return {type, props, children};
 };
 
@@ -16,7 +21,8 @@ const applyFnToAllElements = (inst, fn) => {
     return inst;
   }
 
-  const result = fn({type: inst.type, key: inst.key, props: inst.props, children: inst.props.children});
+  const result = fn({type: inst.type, key: inst.key, ref: inst.ref, props: inst.props, children: inst.props.children});
+
 
   if (result === false || typeof result === 'undefined') {
     return inst;

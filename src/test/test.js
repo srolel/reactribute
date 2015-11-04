@@ -216,4 +216,25 @@ const decorator = reactribute([{
 		expect(node.innerHTML).to.equal('lol');
 
 	});
+
+	it('should work with refs', () => {
+		const decorator = reactribute([{
+			matcher: 'div',
+			fn({type, props, children}) {
+				return {props: {children: 'wat'}};
+			}
+		}]);
+
+		const TestComponent = decorator(class extends React.Component {
+			render() {
+				return <div ref="wat"/>;
+			}
+		});
+
+		const instance = TestUtils.renderIntoDocument(<TestComponent/>);
+		const node = ReactDOM.findDOMNode(instance);
+		expect(instance.refs).to.have.all.keys('wat');
+		expect(instance.refs.wat).to.equal(node);
+
+	});
 });
