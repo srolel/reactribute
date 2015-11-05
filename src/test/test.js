@@ -197,10 +197,11 @@ const decorator = reactribute([{
 			}
 		}]);
 
+		// note: settings {props: {children: 'wat'}} won't work because the previous decorator set the `children` prop (not inside `props`) which takes precedence
 		const anotherDecorator = reactribute([{
 			matcher: 'div',
 			fn({type, props, children}) {
-				return {props: {children: 'lol'}};
+				return {children: 'lol'};
 			}
 		}]);
 
@@ -233,8 +234,36 @@ const decorator = reactribute([{
 
 		const instance = TestUtils.renderIntoDocument(<TestComponent/>);
 		const node = ReactDOM.findDOMNode(instance);
+		expect(node.tagName).to.equal('DIV');
 		expect(instance.refs).to.have.all.keys('wat');
 		expect(instance.refs.wat).to.equal(node);
+
+	});
+
+	it('should apply multiple attributes', () => {
+		const decorator = reactribute([{
+			matcher: 'div',
+			fn({type, props, children}) {
+				return {props: {children: 'wat'}};
+			}
+		}, {
+			matcher: 'wat',
+			fn({type, props, children}) {
+				return {props: {style: {color: 'red'}}};
+			}
+		}]);
+
+		const TestComponent = decorator(class extends React.Component {
+			render() {
+				return <div key="wat"/>;
+			}
+		});
+
+		const instance = TestUtils.renderIntoDocument(<TestComponent/>);
+		const node = ReactDOM.findDOMNode(instance);
+		expect(node.tagName).to.equal('DIV');
+		expect(node.innerHTML).to.equal('wat');
+		expect(node.style.color).to.equal('red');
 
 	});
 });

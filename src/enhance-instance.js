@@ -11,12 +11,10 @@ const resolveElementParams = (originalInstance, transformationResult) => {
   const ref = props.ref || transformationResult.ref || originalInstance.ref;
 
   props = extend(props, {key, ref});
-
-  return {type, props, children};
+  return {type, props, children, key, ref};
 };
 
 const applyFnToAllElements = (inst, fn) => {
-
   if (!React.isValidElement(inst)) {
     return inst;
   }
@@ -34,19 +32,19 @@ const applyFnToAllElements = (inst, fn) => {
 
   let {type, props, children} = resolveElementParams(inst, result);
 
-const resolveChildren = cond([
-    x => Array.isArray(x),
-    x => React.Children.map(x, c => applyFnToAllElements(c, fn))
-  ], [
-    x => x,
-    x => applyFnToAllElements(x, fn)
-  ],
-  x => x);
+  const resolveChildren = cond([
+      x => Array.isArray(x),
+      x => React.Children.map(x, c => applyFnToAllElements(c, fn))
+    ], [
+      x => x,
+      x => applyFnToAllElements(x, fn)
+    ],
+    x => x);
 
   children = resolveChildren(children);
   inst = React.createElement(type, props, children);
-  return inst;
 
+  return inst;
 };
 
 const enhanceReactClassComponent = (Component, fn) => {

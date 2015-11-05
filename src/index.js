@@ -1,5 +1,5 @@
 import enhanceInstances from './enhance-instance.js';
-import {cond} from './utils.js';
+import {cond, extendDeep} from './utils.js';
 
 const reactribute = transforms => {
 
@@ -13,14 +13,16 @@ const reactribute = transforms => {
 
   return enhanceInstances(element => {
     for (let i = 0, len = transforms.length; i < len; i++) {
-      const {matcher, fn} = transforms[i];
+    const {matcher, fn} = transforms[i];
     if (matcher(element)) {
-        element = fn(element);
+        const result = fn(element);
+        if (!result) {
+          return result;
+        }
+        element = extendDeep({}, element, result);
       }
     }
-
     return element;
-
   });
 
 };

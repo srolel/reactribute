@@ -42,3 +42,23 @@ export const extend = (obj1, obj2) => {
 
   return ret;
 };
+
+const isObject = x => typeof x === 'object';
+
+export const extendDeep = (...objs) => {
+  let ret = objs.shift(), firstRun = true;
+  while (objs.length > 0) {
+    const obj = objs.pop();
+    for (var k in obj) {
+      if (obj.hasOwnProperty(k)) {
+        if (isObject( obj[k]) && isObject(ret[k])) {
+          ret[k] = extendDeep({}, ret[k], obj[k]);
+        } else if (firstRun || !(k in ret)) {
+          ret[k] = obj[k];
+        }
+      }
+      firstRun = false;
+    }
+  }
+  return ret;
+};
