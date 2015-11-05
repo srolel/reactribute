@@ -51,7 +51,7 @@ export const extendDeep = (...objs) => {
     const obj = objs.pop();
     for (var k in obj) {
       if (obj.hasOwnProperty(k)) {
-        if (isObject( obj[k]) && isObject(ret[k])) {
+        if (isObject(obj[k]) && isObject(ret[k]) && !obj[k].$$typeof && !ret[k].$$typeof) {
           ret[k] = extendDeep({}, ret[k], obj[k]);
         } else if (firstRun || !(k in ret)) {
           ret[k] = obj[k];
