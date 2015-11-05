@@ -50,7 +50,7 @@ export const extendDeep = (...objs) => {
   while (objs.length > 0) {
     const obj = objs.pop();
     for (var k in obj) {
-      if (obj.hasOwnProperty(k) && k.indexOf('_') !== 0) {
+      if (obj.hasOwnProperty(k)) {
         if (isObject( obj[k]) && isObject(ret[k])) {
           ret[k] = extendDeep({}, ret[k], obj[k]);
         } else if (firstRun || !(k in ret)) {

@@ -12,17 +12,18 @@ const reactribute = transforms => {
   });
 
   return enhanceInstances(element => {
+    let ret = {};
     for (let i = 0, len = transforms.length; i < len; i++) {
-    const {matcher, fn} = transforms[i];
-    if (matcher(element)) {
-        const result = fn(element);
-        if (!result) {
-          return result;
-        }
-        element = extendDeep({}, element, result);
+      const {matcher, fn} = transforms[i];
+      if (matcher(element)) {
+          const result = fn(element);
+          if (!result) {
+            return result;
+          }
+          extendDeep(ret, result);
       }
     }
-    return element;
+    return ret;
   });
 
 };
