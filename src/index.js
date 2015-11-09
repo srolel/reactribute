@@ -1,7 +1,8 @@
+import React from 'react';
 import enhanceInstances from './enhance-instance.js';
-import {cond, extendDeep} from './utils.js';
+import {cond, extendDeep, Map} from './utils.js';
 
-const reactribute = transforms => {
+const reactribute = (transforms, {deep} = {}) => {
 
   const matchers = reactribute.matchers.concat(reactribute.defaultMatcher);
   const getTransformMatcher = cond(...matchers);
@@ -11,11 +12,16 @@ const reactribute = transforms => {
     return t;
   });
 
-  return enhanceInstances(element => {
+  const decorator = enhanceInstances(element => {
     let ret = {};
+
+    if (deep && typeof element.type === 'function') {
+        element.type = decorator(element.type);
+    }
+
     for (let i = 0, len = transforms.length; i < len; i++) {
       const {matcher, fn} = transforms[i];
-      if (matcher(element)) {
+      if (matcher === true || matcher(element)) {
           const result = fn(element);
           if (!result) {
             return result;
@@ -25,6 +31,8 @@ const reactribute = transforms => {
     }
     return ret;
   });
+
+  return decorator;
 
 };
 

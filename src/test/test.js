@@ -266,4 +266,38 @@ const decorator = reactribute([{
 		expect(node.style.color).to.equal('red');
 
 	});
+
+	it('should apply attributes deeply', () => {
+
+		const decorator = reactribute([{
+			matcher: 'div',
+			fn({type, props, children}) {
+				return {props: {children: 'wat'}};
+			}
+		}, {
+			matcher: 'wat',
+			fn({type, props, children}) {
+				return {props: {style: {color: 'red'}}};
+			}
+		}], {deep: true});
+
+		const TestComponent = decorator(class extends React.Component {
+			render() {
+				return <AnotherTestComponent/>;
+			}
+		});
+
+		const AnotherTestComponent = class extends React.Component {
+			render() {
+				return <div key="wat"/>;
+			}
+		};
+
+		const instance = TestUtils.renderIntoDocument(<TestComponent/>);
+		const node = ReactDOM.findDOMNode(instance);
+		expect(node.tagName).to.equal('DIV');
+		expect(node.innerHTML).to.equal('wat');
+		expect(node.style.color).to.equal('red');
+
+	});
 });

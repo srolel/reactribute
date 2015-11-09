@@ -62,3 +62,28 @@ export const extendDeep = (...objs) => {
   }
   return ret;
 };
+
+// export class Map {
+//     constructor() {
+//         this.keys = [];
+//         this.indices = {};
+//         this.values = {};
+//     }
+
+//     set(key, val) {
+//         const index = this.keys.push(key);
+//         this.indices[key] = index;
+//         this.values[index] = val;
+//     }
+
+//     get(key) {
+//       return this.values[key];
+//     }
+
+//     delete(key) {
+//       this.keys.splice(this.indices[key], 1);
+//       delete this.indices[key];
+//       delete this.values[key];
+//     }
+// }
+
