@@ -2,6 +2,7 @@ import {should, expect, assert} from 'chai';
 import reactribute from '../index.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
 import TestUtils from 'react-addons-test-utils';
 import {jsdom} from 'jsdom';
 
@@ -267,6 +268,32 @@ const decorator = reactribute([{
 
 	});
 
+	it('should apply multiple attributes to the same prop', () => {
+		const decorator = reactribute([{
+			matcher: 'div',
+			fn({type, props, children}) {
+				return {props: {className: 'wat'}};
+			}
+		}, {
+			matcher: 'wat',
+			fn({type, props, children}) {
+				return {props: {className: props.className + ' lol'}};
+			}
+		}]);
+
+		const TestComponent = decorator(class extends React.Component {
+			render() {
+				return <div key="wat"/>;
+			}
+		});
+
+		const instance = TestUtils.renderIntoDocument(<TestComponent/>);
+		const node = ReactDOM.findDOMNode(instance);
+		expect(node.tagName).to.equal('DIV');
+		expect(node.className).to.equal('wat lol');
+
+	});
+
 	it('should apply attributes deeply', () => {
 
 		const decorator = reactribute([{
@@ -300,4 +327,26 @@ const decorator = reactribute([{
 		expect(node.style.color).to.equal('red');
 
 	});
+
+	// it('should be composable with itself and keep keys', () => {});
+
+	// it('should apply attributes deeply to pure components', () => {
+
+	// 	const decorator = reactribute([{
+	// 		matcher: 'div',
+	// 		fn({type, props, children}) {
+	// 			return {props: {children: 'wat'}};
+	// 		}
+	// 	}, {
+	// 		matcher: 'wat',
+	// 		fn({type, props, children}) {
+	// 			return {props: {style: {color: 'red'}}};
+	// 		}
+	// 	}], {deep: true});
+
+	// 	const TestComponent = () => console.log('testcomponent')||<div key="wat"/>;
+	// 	const AnotherTestComponent = decorator(() => <TestComponent/>);
+	// 	const instance = ReactDOMServer.renderToString(<AnotherTestComponent/>);
+
+	// });
 });

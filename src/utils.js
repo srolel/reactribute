@@ -63,6 +63,20 @@ export const extendDeep = (...objs) => {
   return ret;
 };
 
+export const resolveElementParams = (originalInstance, transformationResult) => {
+
+  let {type, props, children} = transformationResult;
+  props = props ? extend(originalInstance.props, props) : originalInstance.props;
+  children = children || (props && props.children);
+  type = type || originalInstance.type;
+
+  const key = props.key || transformationResult.key || originalInstance.key;
+  const ref = props.ref || transformationResult.ref || originalInstance.ref;
+
+  props = extend(props, {key, ref});
+  return {type, props, children, key, ref};
+};
+
 // export class Map {
 //     constructor() {
 //         this.keys = [];
@@ -86,4 +100,3 @@ export const extendDeep = (...objs) => {
 //       delete this.values[key];
 //     }
 // }
-

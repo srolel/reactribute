@@ -1,18 +1,5 @@
 import React from 'react';
-import {cond, extend} from './utils.js';
-
-const resolveElementParams = (originalInstance, transformationResult) => {
-  let {type, props, children} = transformationResult;
-  props = props ? extend(originalInstance.props, props) : originalInstance.props;
-  children = children || (props && props.children);
-  type = type || originalInstance.type;
-
-  const key = props.key || transformationResult.key || originalInstance.key;
-  const ref = props.ref || transformationResult.ref || originalInstance.ref;
-
-  props = extend(props, {key, ref});
-  return {type, props, children, key, ref};
-};
+import {cond, extend, resolveElementParams} from './utils.js';
 
 const applyFnToAllElements = (inst, fn) => {
   if (!React.isValidElement(inst)) {
@@ -49,7 +36,6 @@ const applyFnToAllElements = (inst, fn) => {
 
 const enhanceReactClassComponent = (Component, fn) => {
   const descriptor = Object.getOwnPropertyDescriptor(Component.prototype, 'render');
-  // console.log(extend(descriptor, {value: fn(descriptor.value)}))
   Object.defineProperty(Component.prototype, 'render', extend(descriptor, {value: fn(descriptor.value)}));
   return Component;
 };
