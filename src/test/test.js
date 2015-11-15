@@ -219,6 +219,35 @@ const decorator = reactribute([{
 
 	});
 
+	it('should be composable with itself and keep keys', () => {
+		const decorator = reactribute([{
+			matcher: 'wat',
+			fn({type, props, children}) {
+				return {props: {children: 'wat'}};
+			}
+		}]);
+
+		// note: settings {props: {children: 'wat'}} won't work because the previous decorator set the `children` prop (not inside `props`) which takes precedence
+		const anotherDecorator = reactribute([{
+			matcher: 'wat',
+			fn({type, props, children}) {
+				return {children: 'lol'};
+			}
+		}]);
+
+		const TestComponent = anotherDecorator(decorator(class extends React.Component {
+			render() {
+				return <div key="wat"/>;
+			}
+		}));
+
+		const instance = TestUtils.renderIntoDocument(<TestComponent/>);
+		const node = ReactDOM.findDOMNode(instance);
+		expect(node.tagName).to.equal('DIV');
+		expect(node.innerHTML).to.equal('lol');
+	});
+
+
 	it('should work with refs', () => {
 		const decorator = reactribute([{
 			matcher: 'div',
@@ -328,7 +357,6 @@ const decorator = reactribute([{
 
 	});
 
-	// it('should be composable with itself and keep keys', () => {});
 
 	// it('should apply attributes deeply to pure components', () => {
 

@@ -4,7 +4,7 @@
   "description": " ",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && mocha -w ./build/test",
+    "test": "mocha ./build/test",
     "watch:test": "concurrent \"npm run watch:build\" \"npm test\"",
     "watch:test:notify": "concurrent \"npm run watch:build\" \"npm test | node notify.js\"",
     "build": "babel src --out-dir build",

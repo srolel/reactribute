@@ -35,9 +35,9 @@ const applyFnToAllElements = (inst, fn) => {
 };
 
 const enhanceReactClassComponent = (Component, fn) => {
-  const descriptor = Object.getOwnPropertyDescriptor(Component.prototype, 'render');
-  Object.defineProperty(Component.prototype, 'render', extend(descriptor, {value: fn(descriptor.value)}));
-  return Component;
+  const newComponent = class extends Component {};
+  newComponent.prototype.render = fn(Component.prototype.render);
+  return newComponent;
 };
 
 const enhanceReactPureComponent = (Component, fn) => fn(Component);
