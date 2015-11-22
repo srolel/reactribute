@@ -35,8 +35,9 @@ const applyFnToAllElements = (inst, fn) => {
 };
 
 const enhanceReactClassComponent = (Component, fn) => {
+  const {render} = Component.prototype;
   const newComponent = class extends Component {};
-  newComponent.prototype.render = fn(Component.prototype.render);
+  newComponent.prototype.render = fn(render);
   return newComponent;
 };
 
