@@ -70,8 +70,8 @@ export const resolveElementParams = (originalInstance, transformationResult) => 
   children = children || (props && props.children);
   type = type || originalInstance.type;
 
-  const key = props.key || transformationResult.key || originalInstance.key;
-  const ref = props.ref || transformationResult.ref || originalInstance.ref;
+  const key = props.key || transformationResult.key || originalInstance.key || undefined;
+  const ref = props.ref || transformationResult.ref || originalInstance.ref || undefined;
 
   props = extend(props, {key, ref});
   return {type, props, children, key, ref};
