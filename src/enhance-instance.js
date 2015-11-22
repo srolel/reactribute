@@ -19,6 +19,9 @@ const applyFnToAllElements = (inst, fn) => {
 
   let {type, props, children} = resolveElementParams(inst, result);
 
+  // https://github.com/facebook/react/issues/5519
+  props.key = props.key === null ? undefined : props.key;
+
   const resolveChildren = cond([
       x => Array.isArray(x),
       x => React.Children.map(x, c => applyFnToAllElements(c, fn))
@@ -29,6 +32,7 @@ const applyFnToAllElements = (inst, fn) => {
     x => x);
 
   children = resolveChildren(children);
+
   inst = React.createElement(type, props, children);
 
   return inst;
