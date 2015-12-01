@@ -85,5 +85,5 @@
     "watch:test": "concurrent \"npm run watch:build\" \"npm test\"",
     "watch:test:notify": "concurrent \"npm run watch:build\" \"npm test | node notify.js\""
   },
-  "version": "0.2.0"
+  "version": "0.3.0"
 }
