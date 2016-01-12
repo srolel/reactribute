@@ -1,6 +1,6 @@
 import React from 'react';
 import enhanceInstances from './enhance-instance.js';
-import {cond, extendDeep, resolveElementParams} from './utils.js';
+import {cond, resolveElementParams} from './utils.js';
 
 const reactribute = (transforms, {deep} = {}) => {
 

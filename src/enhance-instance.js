@@ -1,5 +1,5 @@
 import React from 'react';
-import {cond, extend, resolveElementParams} from './utils.js';
+import {resolveElementParams, flatten} from './utils.js';
 
 const applyFnToAllElements = (inst, fn) => {
   if (!React.isValidElement(inst)) {
@@ -23,20 +23,25 @@ const applyFnToAllElements = (inst, fn) => {
     return null;
   }
 
-  let {type, props, children} = resolveElementParams(inst, result);
+  let {type, props, children, key, ref} = resolveElementParams(inst, result);
 
   // https://github.com/facebook/react/issues/5519
-  props.key = props.key === null ? undefined : props.key;
+  key = key === null ? undefined : key;
 
   if (Array.isArray(children)) {
-    children = React.Children.map(children, c => applyFnToAllElements(c, fn))
+    props.children = flatten(children).map(c => applyFnToAllElements(c, fn));
   } else if (children) {
-    children = applyFnToAllElements(children, fn);
+    props.children = applyFnToAllElements(children, fn);
   }
 
-  inst = React.createElement(type, props, children);
-
-  return inst;
+  return {
+    $$typeof: inst.$$typeof,
+    type,
+    key,
+    ref,
+    props,
+    _owner: inst._owner
+  };
 };
 
 const enhanceReactClassComponent = (Component, fn) => {
