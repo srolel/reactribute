@@ -6,7 +6,13 @@ const applyFnToAllElements = (inst, fn) => {
     return inst;
   }
 
-  const result = fn({type: inst.type, key: inst.key, ref: inst.ref, props: inst.props, children: inst.props.children});
+  const result = fn({
+    type: inst.type,
+    key: inst.key,
+    ref: inst.ref,
+    props: inst.props,
+    children: inst.props.children
+  });
 
 
   if (result === false || typeof result === 'undefined') {
@@ -22,16 +28,11 @@ const applyFnToAllElements = (inst, fn) => {
   // https://github.com/facebook/react/issues/5519
   props.key = props.key === null ? undefined : props.key;
 
-  const resolveChildren = cond([
-      x => Array.isArray(x),
-      x => React.Children.map(x, c => applyFnToAllElements(c, fn))
-    ], [
-      x => x,
-      x => applyFnToAllElements(x, fn)
-    ],
-    x => x);
-
-  children = resolveChildren(children);
+  if (Array.isArray(children)) {
+    children = React.Children.map(children, c => applyFnToAllElements(c, fn))
+  } else if (children) {
+    children = applyFnToAllElements(children, fn);
+  }
 
   inst = React.createElement(type, props, children);
 
@@ -41,6 +42,7 @@ const applyFnToAllElements = (inst, fn) => {
 const enhanceReactClassComponent = (Component, fn) => {
   const {render} = Component.prototype;
   const newComponent = class extends Component {};
+  newComponent.displayName = Component.displayName || Component.name;
   newComponent.prototype.render = fn(render);
   return newComponent;
 };

@@ -1,21 +1,43 @@
 {
-  "name": "reactribute",
-  "version": "0.1.18",
-  "description": " ",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha ./build/test",
-    "watch:test": "concurrent \"npm run watch:build\" \"npm test\"",
-    "watch:test:notify": "concurrent \"npm run watch:build\" \"npm test | node notify.js\"",
-    "build": "babel src --out-dir build",
-    "watch:build": "babel src -w --out-dir build",
-    "dev": "concurrent \"babel src -w --out-dir build\" \"iron-node dev.js\"",
-    "start": "babel src --out-dir build && webpack --config webpack.config.src.js && webpack --config webpack.config.min.js",
-    "patch-release": "npm start && npm test && git add . --all && git commit -m \"patch\" && npm version patch && npm publish",
-    "release-patch": "npm run patch-release"
+  "_args": [
+    [
+      "reactribute@^0.1.18",
+      "C:\\sharon\\react-style"
+    ]
+  ],
+  "_from": "reactribute@>=0.1.18 <0.2.0",
+  "_id": "reactribute@0.1.18",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/reactribute",
+  "_nodeVersion": "5.0.0",
+  "_npmUser": {
+    "email": "sharonr@tipranks.com",
+    "name": "mosho"
   },
-  "author": "Sharon Rolel",
-  "license": "ISC",
+  "_npmVersion": "3.4.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "reactribute",
+    "raw": "reactribute@^0.1.18",
+    "rawSpec": "^0.1.18",
+    "scope": null,
+    "spec": ">=0.1.18 <0.2.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/reactribute/-/reactribute-0.1.18.tgz",
+  "_shasum": "724b8156b466e01cb41152e15372eebd1b3802b2",
+  "_shrinkwrap": null,
+  "_spec": "reactribute@^0.1.18",
+  "_where": "C:\\sharon\\react-style",
+  "author": {
+    "name": "Sharon Rolel"
+  },
+  "dependencies": {},
+  "description": " ",
   "devDependencies": {
     "babel-cli": "^6.0.12",
     "babel-plugin-transform-runtime": "^6.0.2",
@@ -32,7 +54,36 @@
     "react-dom": "^0.14.0",
     "webpack": "^1.12.2"
   },
+  "directories": {},
+  "dist": {
+    "shasum": "724b8156b466e01cb41152e15372eebd1b3802b2",
+    "tarball": "http://registry.npmjs.org/reactribute/-/reactribute-0.1.18.tgz"
+  },
+  "gitHead": "ffcd4087735d2b8d2a027a0d5b4bde6a5ea83f5e",
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "mosho",
+      "email": "sharonrolel@gmail.com"
+    }
+  ],
+  "name": "reactribute",
+  "optionalDependencies": {},
   "peerDependencies": {
     "react": "^0.14.0"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "scripts": {
+    "build": "babel src --out-dir build",
+    "dev": "concurrent \"babel src -w --out-dir build\" \"iron-node dev.js\"",
+    "patch-release": "npm start && npm test && git add . --all && git commit -m \"patch\" && npm version patch && npm publish",
+    "release-patch": "npm run patch-release",
+    "start": "babel src --out-dir build && webpack --config webpack.config.src.js && webpack --config webpack.config.min.js",
+    "test": "mocha ./build/test",
+    "watch:build": "babel src -w --out-dir build",
+    "watch:test": "concurrent \"npm run watch:build\" \"npm test\"",
+    "watch:test:notify": "concurrent \"npm run watch:build\" \"npm test | node notify.js\""
+  },
+  "version": "0.3.0"
 }
