@@ -86,5 +86,5 @@
     "watch:build": "babel src -w --out-dir build",
     "watch:test:notify": "concurrent \"npm run watch:build\" \"npm test | node notify.js\""
   },
-  "version": "0.3.0"
+  "version": "0.3.1"
 }
