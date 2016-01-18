@@ -45,4 +45,6 @@ export const resolveElementParams = (originalInstance, transformationResult) => 
   return {type, props, children, key, ref};
 };
 
-export const flatten = arr => Array.prototype.concat.apply([], arr);
+export const flatten = arr => Array.isArray(arr)
+    ? Array.prototype.concat.apply([], arr)
+    : arr;

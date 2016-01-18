@@ -28,7 +28,7 @@ const applyFnToAllElements = (inst, fn) => {
   // https://github.com/facebook/react/issues/5519
   key = key === null ? undefined : key;
 
-  if (Array.isArray(children)) {
+  if (children && children.map) {
     props.children = flatten(children).map(c => applyFnToAllElements(c, fn));
   } else if (children) {
     props.children = applyFnToAllElements(children, fn);
