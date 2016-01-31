@@ -1,3 +1,9 @@
 {
-  "presets": ["es2015", "react", "stage-0"]
+    "stage": 0,
+    "blacklist": [],
+    "loose": "es6.classes",
+    "optional": [
+      "optimisation.modules.system",
+      "spec.protoToAssign"
+    ]
 }
